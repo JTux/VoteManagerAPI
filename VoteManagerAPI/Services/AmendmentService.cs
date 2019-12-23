@@ -17,6 +17,29 @@ namespace VoteManagerAPI.Services
         public AmendmentService() { }
         public AmendmentService(string userId) => _userId = userId;
 
+        public async Task<bool> CreateAmendment(AmendmentCreate model)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var currentSessionId = await new SessionService(_userId).GetCurrentSessionId();
+                if (currentSessionId == 0)
+                    return false;
+
+                var amendment = new AmendmentEntity
+                {
+                    RuleId = model.RuleId,
+                    Title = model.Title,
+                    Description = model.Description,
+                    IsActive = true,
+                    PresentingUserId = _userId,
+                    OriginalSessionId = currentSessionId,
+                };
+
+                context.Amendments.Add(amendment);
+                return await context.SaveChangesAsync() == 1;
+            }
+        }
+
         public async Task<AmendmentDetail> GetAmendmentById(int amendmentId)
         {
             using (var context = new ApplicationDbContext())

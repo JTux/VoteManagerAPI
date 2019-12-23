@@ -12,8 +12,8 @@ namespace VoteManagerAPI.Models.Amendment
         public string Title { get; set; }
         public string Description { get; set; }
         public string PresenterName { get; set; }
-        public bool IsPassed { get; set; }
         public bool IsActive { get; set; }
+        public bool IsPassed { get; set; }
         public bool IsTabled { get; set; }
         public List<VoteDetail> Votes { get; set; }
         public int RuleId { get; set; }
