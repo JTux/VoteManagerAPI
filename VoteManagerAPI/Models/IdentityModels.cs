@@ -38,7 +38,7 @@ namespace VoteManagerAPI.Models
         public DbSet<SessionEntity> Sessions { get; set; }
         public DbSet<OrderOfBusinessEntity> OrdersOfBusiness { get; set; }
         public DbSet<MotionEntity> Motions { get; set; }
-        public DbSet<AmmendmentEntity> Ammendments { get; set; }
+        public DbSet<AmendmentEntity> Amendments { get; set; }
         public DbSet<VoteEntity> Votes { get; set; }
         public DbSet<RuleEntity> Rules { get; set; }
     }

@@ -46,7 +46,7 @@ namespace VoteManagerAPI.Services
             using (var context = new ApplicationDbContext())
             {
                 var motion = await context.OrdersOfBusiness.FindAsync(motionId);
-                if (motion == null || motion is AmmendmentEntity)
+                if (motion == null || motion is AmendmentEntity)
                     return null;
 
                 var motionDetail = new MotionDetail
@@ -82,7 +82,7 @@ namespace VoteManagerAPI.Services
             using (var context = new ApplicationDbContext())
             {
                 var motion = await context.OrdersOfBusiness.FindAsync(model.MotionId);
-                if (motion == null || motion is AmmendmentEntity || motion.PresentingUserId != _userId)
+                if (motion == null || motion is AmendmentEntity || motion.PresentingUserId != _userId)
                     return false;
 
                 if (motion.Title == model.Title && motion.Description == model.Description)

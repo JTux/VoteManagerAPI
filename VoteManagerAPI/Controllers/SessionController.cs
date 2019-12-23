@@ -25,7 +25,22 @@ namespace VoteManagerAPI.Controllers
             return BadRequest("Session already in progress.");
         }
 
-        // GET CURRENT SESSION
+        [HttpGet, Route("Current")]
+        public async Task<IHttpActionResult> GetCurrentSession()
+        {
+            var service = GetSessionService();
+            var currentSessionId = await service.GetCurrentSessionId();
+            var currentSession = await service.GetSessionById(currentSessionId);
+            return Ok(currentSession);
+        }
+
+        [HttpGet, Route("{sessionId}")]
+        public async Task<IHttpActionResult> GetSessionById(int sessionId)
+        {
+            var service = GetSessionService();
+            var session = await service.GetSessionById(sessionId);
+            return Ok(session);
+        }
 
         [HttpPut, Route("End")]
         [Authorize(Roles = "Admin, Chair")]

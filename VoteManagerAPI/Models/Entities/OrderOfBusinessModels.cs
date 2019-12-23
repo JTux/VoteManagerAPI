@@ -41,7 +41,7 @@ namespace VoteManagerAPI.Models.Entities
         public override ICollection<VoteEntity> Votes { get; set; }
     }
 
-    public class AmmendmentEntity : OrderOfBusinessEntity
+    public class AmendmentEntity : OrderOfBusinessEntity
     {
         [ForeignKey(nameof(Rule))]
         public int RuleId { get; set; }

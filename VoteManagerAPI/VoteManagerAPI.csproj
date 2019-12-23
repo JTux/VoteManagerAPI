@@ -229,6 +229,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Amendment\AmendmentDetail.cs" />
     <Compile Include="Models\Entities\OrderOfBusinessModels.cs" />
     <Compile Include="Models\Entities\RuleEntity.cs" />
     <Compile Include="Models\Entities\SessionEntity.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Models\Motion\MotionDetail.cs" />
     <Compile Include="Models\Motion\MotionUpdate.cs" />
     <Compile Include="Models\RoleBindingModels.cs" />
+    <Compile Include="Models\Session\SessionDetail.cs" />
     <Compile Include="Models\Vote\VoteCreate.cs" />
     <Compile Include="Models\Vote\VoteDetail.cs" />
     <Compile Include="Models\Vote\VoteStatus.cs" />
@@ -307,7 +309,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Session\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
