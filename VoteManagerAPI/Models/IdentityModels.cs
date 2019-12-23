@@ -1,8 +1,10 @@
-﻿using System.Security.Claims;
+﻿using System.Data.Entity;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using VoteManagerAPI.Models.Entities;
 
 namespace VoteManagerAPI.Models
 {
@@ -32,5 +34,12 @@ namespace VoteManagerAPI.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<SessionEntity> Sessions { get; set; }
+        public DbSet<OrderOfBusinessEntity> OrdersOfBusiness { get; set; }
+        public DbSet<MotionEntity> Motions { get; set; }
+        public DbSet<AmmendmentEntity> Ammendments { get; set; }
+        public DbSet<VoteEntity> Votes { get; set; }
+        public DbSet<RuleEntity> Rules { get; set; }
     }
 }
