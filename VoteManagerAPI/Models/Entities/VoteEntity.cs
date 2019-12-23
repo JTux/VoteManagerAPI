@@ -14,6 +14,11 @@ namespace VoteManagerAPI.Models.Entities
         [Key]
         public int Id { get; set; }
 
+        [Required]
+        [DefaultValue(false)]
+        public bool IsAnonymous { get; set; }
+
+        [Required]
         public VoteStatus Status { get; set; }
 
         [ForeignKey(nameof(OrderOfBusiness))]

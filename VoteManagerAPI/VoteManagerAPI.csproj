@@ -222,6 +222,10 @@
     <Compile Include="Migrations\201912231950268_UpdatedVoteStatusType.Designer.cs">
       <DependentUpon>201912231950268_UpdatedVoteStatusType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912232005374_AddedAnonVotes.cs" />
+    <Compile Include="Migrations\201912232005374_AddedAnonVotes.Designer.cs">
+      <DependentUpon>201912232005374_AddedAnonVotes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -231,8 +235,11 @@
     <Compile Include="Models\Entities\VoteEntity.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Motion\MotionCreate.cs" />
+    <Compile Include="Models\Motion\MotionDetail.cs" />
+    <Compile Include="Models\Motion\MotionUpdate.cs" />
     <Compile Include="Models\RoleBindingModels.cs" />
     <Compile Include="Models\Vote\VoteCreate.cs" />
+    <Compile Include="Models\Vote\VoteDetail.cs" />
     <Compile Include="Models\Vote\VoteStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
@@ -337,6 +344,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912231950268_UpdatedVoteStatusType.resx">
       <DependentUpon>201912231950268_UpdatedVoteStatusType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912232005374_AddedAnonVotes.resx">
+      <DependentUpon>201912232005374_AddedAnonVotes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -28,14 +28,12 @@ namespace VoteManagerAPI.Services
 
                 if (userVote != null)
                 {
-                    if (userVote.Status == VoteStatus.NoVote && userVote.Status == model.Status)
-                        return true;
-
                     userVote.Status = (userVote.Status != model.Status) ? model.Status : VoteStatus.NoVote;
+                    userVote.IsAnonymous = model.IsAnonymous;
                 }
                 else
                 {
-                    targetOrder.Votes.Add(new VoteEntity { Status = model.Status, VoterId = _userId });
+                    targetOrder.Votes.Add(new VoteEntity { Status = model.Status, VoterId = _userId, IsAnonymous = model.IsAnonymous });
                 }
 
                 return await context.SaveChangesAsync() == 1;
