@@ -20,6 +20,6 @@ namespace VoteManagerAPI.Models.Entities
         [DataType(DataType.DateTime)]
         public DateTimeOffset DatePassed { get; set; }
 
-        public virtual ICollection<AmendmentEntity> Ammendments { get; set; }
+        public virtual ICollection<AmendmentEntity> Amendments { get; set; }
     }
 }

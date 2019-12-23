@@ -34,7 +34,6 @@ namespace VoteManagerAPI.Services
 
         // GET SESSION STATUS => Is it safe to end?
 
-        // GET CURRENT SESSION
         public async Task<SessionDetail> GetSessionById(int sessionId)
         {
             using (var context = new ApplicationDbContext())
@@ -42,8 +41,6 @@ namespace VoteManagerAPI.Services
                 var session = await context.Sessions.FindAsync(sessionId);
                 if (session == null)
                     return null;
-
-                var motionService = new MotionService(_userId);
 
                 var sessionDetail = new SessionDetail
                 {
@@ -55,14 +52,19 @@ namespace VoteManagerAPI.Services
                     Amendments = new List<AmendmentDetail>()
                 };
 
+                var motionService = new MotionService(_userId);
+                var amendmentService = new AmendmentService(_userId);
+
                 foreach (var motion in session.OrdersOfBusiness.Where(o => o is MotionEntity))
                     sessionDetail.Motions.Add(await motionService.GetMotionById(motion.Id));
+
+                foreach (var amendment in session.OrdersOfBusiness.Where(o => o is AmendmentEntity))
+                    sessionDetail.Amendments.Add(await amendmentService.GetAmendmentById(amendment.Id));
 
                 return sessionDetail;
             }
         }
 
-        // GET CURRENT SESSION ID
         public async Task<int> GetCurrentSessionId()
         {
             using(var context = new ApplicationDbContext())

@@ -47,6 +47,10 @@ namespace VoteManagerAPI.Models.Entities
         public int RuleId { get; set; }
         public virtual RuleEntity Rule { get; set; }
 
+        [Required]
+        [DefaultValue(false)]
+        public bool IsPassed { get; set; }
+
         public override ICollection<VoteEntity> Votes { get; set; }
     }
 }
