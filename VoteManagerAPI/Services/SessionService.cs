@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using VoteManagerAPI.Models;
 using VoteManagerAPI.Models.Entities;
@@ -9,12 +11,12 @@ namespace VoteManagerAPI.Services
 {
     public class SessionService
     {
-        private string _userId;
+        private readonly string _userId;
 
         public SessionService() { }
         public SessionService(string userId) => _userId = userId;
 
-        public bool StartNewSession()
+        public async Task<bool> StartNewSession()
         {
             using (var context = new ApplicationDbContext())
             {
@@ -23,19 +25,23 @@ namespace VoteManagerAPI.Services
 
                 context.Sessions.Add(new SessionEntity { CreatorId = _userId, StartDate = DateTime.UtcNow, IsActive = true });
 
-                return context.SaveChanges() == 1;
+                return await context.SaveChangesAsync() == 1;
             }
         }
 
+        // GET SESSION STATUS => Is it safe to end?
+
         // GET CURRENT SESSION
 
-        public bool EndCurrentSession()
+        // GET CURRENT SESSION ID
+
+        public async Task<bool> EndCurrentSession()
         {
             using (var context = new ApplicationDbContext())
             {
                 int changeCount = 1;
 
-                var currentSession = context.Sessions.FirstOrDefault(s => s.IsActive);
+                var currentSession = await context.Sessions.FirstOrDefaultAsync(s => s.IsActive);
                 if (currentSession == null)
                     return false;
 
@@ -48,7 +54,7 @@ namespace VoteManagerAPI.Services
                     changeCount++;
                 }
 
-                return context.SaveChanges() == changeCount;
+                return await context.SaveChangesAsync() == changeCount;
             }
         }
     }

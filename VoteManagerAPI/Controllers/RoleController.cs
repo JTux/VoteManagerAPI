@@ -43,7 +43,7 @@ namespace VoteManagerAPI.Controllers
                 return BadRequest(ModelState);
 
             if (model == null)
-                return BadRequest("Request body was empty.");
+                return BadRequest("Request body cannot be empty.");
 
             var user = UserManager.FindByEmail(model.UserEmail);
             if (user == null)
@@ -67,7 +67,7 @@ namespace VoteManagerAPI.Controllers
                 return BadRequest(ModelState);
 
             if (model == null)
-                return BadRequest("Request body was empty.");
+                return BadRequest("Request body cannot be empty.");
 
             var user = UserManager.FindByEmail(model.UserEmail);
             if (user == null)
@@ -94,7 +94,7 @@ namespace VoteManagerAPI.Controllers
                 return BadRequest(ModelState);
 
             if (model == null)
-                return BadRequest("Request body was empty.");
+                return BadRequest("Request body cannot be empty.");
 
             var existingRole = RoleManager.FindByName(model.RoleName);
             if (existingRole != null)
@@ -115,7 +115,7 @@ namespace VoteManagerAPI.Controllers
                 return BadRequest(ModelState);
 
             if (model == null)
-                return BadRequest("Request body was empty.");
+                return BadRequest("Request body cannot be empty.");
 
             var existingRole = RoleManager.FindByName(model.RoleName);
             if (existingRole == null)

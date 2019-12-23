@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using VoteManagerAPI.Models.Vote;
 
 namespace VoteManagerAPI.Models.Entities
 {
@@ -13,8 +14,7 @@ namespace VoteManagerAPI.Models.Entities
         [Key]
         public int Id { get; set; }
 
-        [DefaultValue(false)]
-        public bool IsFor { get; set; }
+        public VoteStatus Status { get; set; }
 
         [ForeignKey(nameof(OrderOfBusiness))]
         public int OrderOfBusinessId { get; set; }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using VoteManagerAPI.Services;
 
@@ -15,10 +16,10 @@ namespace VoteManagerAPI.Controllers
     {
         [HttpPost, Route("Begin")]
         [Authorize(Roles = "Admin, Chair")]
-        public IHttpActionResult InitializeSession()
+        public async Task<IHttpActionResult> InitializeSession()
         {
             var service = GetSessionService();
-            if (service.StartNewSession())
+            if (await service.StartNewSession())
                 return Ok("Started new session.");
 
             return BadRequest("Session already in progress.");
@@ -28,10 +29,10 @@ namespace VoteManagerAPI.Controllers
 
         [HttpPut, Route("End")]
         [Authorize(Roles = "Admin, Chair")]
-        public IHttpActionResult EndCurrentSession()
+        public async Task<IHttpActionResult> EndCurrentSession()
         {
             var service = GetSessionService();
-            if (service.EndCurrentSession())
+            if (await service.EndCurrentSession())
                 return Ok("Session ended successfully.");
 
             return BadRequest("Cannot end session.");
