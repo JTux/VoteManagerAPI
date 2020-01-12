@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using VoteManagerAPI.Extensions;
 using VoteManagerAPI.Models;
+using VoteManagerAPI.Models.Amendment;
 using VoteManagerAPI.Models.Entities;
+using VoteManagerAPI.Models.Motion;
 using VoteManagerAPI.Models.OOB;
 using VoteManagerAPI.Models.Vote;
 
@@ -18,6 +21,17 @@ namespace VoteManagerAPI.Services
 
         public OrderOfBusinessService() { }
         public OrderOfBusinessService(string userId) => _userId = userId;
+
+        // GET Tabled OOBs
+        public async Task<TableDetail> GetTableAsync()
+        {
+            var tabledOrders = await _context.OrdersOfBusiness.Where(o => o.IsTabled).ToListAsync();
+            return new TableDetail
+            {
+                Motions = tabledOrders.Where(o => o is MotionEntity).Select(m => (MotionDetail)m.ToDetail()).ToList(),
+                Amendments = tabledOrders.Where(o => o is AmendmentEntity).Select(a => (AmendmentDetail)a.ToDetail()).ToList()
+            };
+        }
 
         // GET Votes By ID
         public async Task<List<VoteDetail>> GetVotesAsync(int orderOfBusinessId)
@@ -43,6 +57,10 @@ namespace VoteManagerAPI.Services
         // Toggle Tabled OOB
         public async Task<bool> ToggleTabledByIdAsync(int orderOfBusinessId)
         {
+            var activeSession = await _context.Sessions.FirstOrDefaultAsync(s => s.IsActive);
+            if (activeSession == null)
+                return false;
+
             var orderOfBusiness = await _context.OrdersOfBusiness.FindAsync(orderOfBusinessId);
             if (orderOfBusiness == null || (!orderOfBusiness.IsTabled && !orderOfBusiness.IsActive))
                 return false;

@@ -41,6 +41,13 @@ namespace VoteManagerAPI.Controllers
             return BadRequest("There is no active session.");
         }
 
+        // GET Session List
+        [HttpGet, Route("Index")]
+        public async Task<IHttpActionResult> GetSessionList()
+        {
+            return Ok(await GetSessionService().GetSessionListAsync());
+        }
+
         // GET All
         [HttpGet, Route("All")]
         public async Task<IHttpActionResult> GetAllSessions()

@@ -37,12 +37,18 @@ namespace VoteManagerAPI.Services
             return currentSession != null ? currentSession.Id : 0;
         }
 
+        // GET Session List
+        public async Task<List<SessionListItem>> GetSessionListAsync()
+        {
+            var allSessions = (await _context.Sessions.ToListAsync()).Select(s => s.ToListItem());
+            return allSessions.OrderByDescending(s => s.StartDate).ToList();
+        }
+
         // GET All
         public async Task<List<SessionDetail>> GetAllSessionsAsync()
         {
             var allSessions = (await _context.Sessions.ToListAsync()).Select(s => s.ToDetail());
-            var orderedSessions = allSessions.OrderByDescending(s => s.StartDate).ToList();
-            return orderedSessions;
+            return allSessions.OrderByDescending(s => s.StartDate).ToList();
         }
 
         // GET by ID

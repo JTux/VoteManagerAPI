@@ -34,11 +34,13 @@ namespace VoteManagerAPI.Models.Entities
         public virtual ApplicationUser PresentingUser { get; set; }
 
         public virtual ICollection<VoteEntity> Votes { get; set; }
+        public virtual ICollection<RuleEntity> Rules { get; set; }
     }
 
     public class MotionEntity : OrderOfBusinessEntity
     {
         public override ICollection<VoteEntity> Votes { get; set; }
+        public override ICollection<RuleEntity> Rules { get; set; }
     }
 
     public class AmendmentEntity : OrderOfBusinessEntity
@@ -52,5 +54,6 @@ namespace VoteManagerAPI.Models.Entities
         public bool IsPassed { get; set; }
 
         public override ICollection<VoteEntity> Votes { get; set; }
+        public override ICollection<RuleEntity> Rules { get; set; }
     }
 }

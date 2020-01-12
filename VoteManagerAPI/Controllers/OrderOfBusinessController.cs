@@ -12,6 +12,10 @@ namespace VoteManagerAPI.Controllers
 {
     public class OrderOfBusinessController : ApiController
     {
+        // GET Tabled OOBs
+        [HttpGet, Route("api/Table")]
+        public async Task<IHttpActionResult> GetTable() => Ok(await GetService().GetTableAsync());
+
         // GET Votes By ID
         [HttpGet, Route("api/Motion/{id:int}/Votes"), Route("api/Amendment/{id:int}/Votes")]
         [Authorize]

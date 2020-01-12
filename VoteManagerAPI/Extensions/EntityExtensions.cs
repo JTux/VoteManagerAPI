@@ -22,8 +22,21 @@ namespace VoteManagerAPI.Extensions
                 StartDate = entity.StartDate,
                 CreatorName = entity.Creator.UserName,
                 IsActive = entity.IsActive,
-                Motions = entity.OrdersOfBusiness.Where(e => e is MotionEntity).Select(e => (MotionDetail)e.ToDetail()).ToList(),
-                Amendments = entity.OrdersOfBusiness.Where(e => e is AmendmentEntity).Select(e => (AmendmentDetail)e.ToDetail()).ToList()
+                Motions = entity.OrdersOfBusiness.Where(e => e is MotionEntity && e.IsActive).Select(e => (MotionDetail)e.ToDetail()).ToList(),
+                Amendments = entity.OrdersOfBusiness.Where(e => e is AmendmentEntity && e.IsActive).Select(e => (AmendmentDetail)e.ToDetail()).ToList()
+            };
+        }
+
+        public static SessionListItem ToListItem(this SessionEntity entity)
+        {
+            return new SessionListItem
+            {
+                SessionId = entity.Id,
+                StartDate = entity.StartDate,
+                CreatorName = entity.Creator.UserName,
+                IsActive = entity.IsActive,
+                AmendmentCount = entity.OrdersOfBusiness.Where(e => e is AmendmentEntity && e.IsActive).Count(),
+                MotionCount = entity.OrdersOfBusiness.Where(e => e is MotionEntity && e.IsActive).Count()
             };
         }
 

@@ -237,9 +237,11 @@
     <Compile Include="Models\Motion\MotionDetail.cs" />
     <Compile Include="Models\Motion\MotionUpdate.cs" />
     <Compile Include="Models\OOB\OrderOfBusinessDetail.cs" />
+    <Compile Include="Models\OOB\TableDetail.cs" />
     <Compile Include="Models\RoleBindingModels.cs" />
     <Compile Include="Models\Rule\RuleDetail.cs" />
     <Compile Include="Models\Session\SessionDetail.cs" />
+    <Compile Include="Models\Session\SessionListItem.cs" />
     <Compile Include="Models\Vote\VoteCreate.cs" />
     <Compile Include="Models\Vote\VoteDetail.cs" />
     <Compile Include="Models\Vote\VoteStatus.cs" />
