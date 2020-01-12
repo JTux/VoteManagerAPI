@@ -13,6 +13,7 @@ namespace VoteManagerAPI.Models.OOB
         public string PresenterName { get; set; }
         public bool IsActive { get; set; }
         public bool IsTabled { get; set; }
+        public int OriginalSessionId { get; set; }
         public List<VoteDetail> Votes { get; set; }
     }
 }

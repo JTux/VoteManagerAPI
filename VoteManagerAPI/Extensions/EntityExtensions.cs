@@ -39,11 +39,12 @@ namespace VoteManagerAPI.Extensions
             return new MotionDetail
             {
                 MotionId = entity.Id,
-                IsActive = entity.IsActive,
-                Description = entity.Description,
-                IsTabled = entity.IsTabled,
                 Title = entity.Title,
+                Description = entity.Description,
                 PresenterName = entity.PresentingUser.UserName,
+                OriginalSessionId = entity.OriginalSessionId,
+                IsActive = entity.IsActive,
+                IsTabled = entity.IsTabled,
                 Votes = entity.Votes.Select(v => v.ToDetail()).ToList()
             };
         }
@@ -57,9 +58,10 @@ namespace VoteManagerAPI.Extensions
                 Title = entity.Title,
                 Description = entity.Description,
                 PresenterName = entity.PresentingUser.UserName,
+                OriginalSessionId = entity.OriginalSessionId,
                 IsActive = entity.IsActive,
-                IsPassed = entity.IsPassed,
                 IsTabled = entity.IsTabled,
+                IsPassed = entity.IsPassed,
                 Votes = entity.Votes.Select(v => v.ToDetail()).ToList()
             };
         }
