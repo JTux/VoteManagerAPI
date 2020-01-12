@@ -6,6 +6,7 @@ using VoteManagerAPI.Models.Amendment;
 using VoteManagerAPI.Models.Entities;
 using VoteManagerAPI.Models.Motion;
 using VoteManagerAPI.Models.OOB;
+using VoteManagerAPI.Models.Rule;
 using VoteManagerAPI.Models.Session;
 using VoteManagerAPI.Models.Vote;
 
@@ -74,6 +75,19 @@ namespace VoteManagerAPI.Extensions
                 OrderOfBusinessId = entity.OrderOfBusinessId,
                 VoterName = (entity.IsAnonymous) ? "Anonymous" : entity.Voter.UserName,
                 Status = entity.Status
+            };
+        }
+
+        public static RuleDetail ToDetail(this RuleEntity entity)
+        {
+            return new RuleDetail
+            {
+                RuleId = entity.Id,
+                DatePassed = entity.DatePassed,
+                OriginalOrderId = entity.OriginalOrderId,
+                Title = entity.OrderOfBusiness.Title,
+                Description = entity.OrderOfBusiness.Description,
+                Amendments = entity.Amendments.Where(a => a.IsPassed).Select(a => a.ToDetail()).ToList()
             };
         }
     }

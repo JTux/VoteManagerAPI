@@ -9,8 +9,9 @@ namespace VoteManagerAPI.Models.Rule
     public class RuleDetail
     {
         public int RuleId { get; set; }
-        public int MotionId { get; set; }
-        public string MotionTitle { get; set; }
+        public int OriginalOrderId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
         public DateTimeOffset DatePassed { get; set; }
         public List<AmendmentDetail> Amendments { get; set; }
     }
