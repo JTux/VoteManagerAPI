@@ -11,6 +11,7 @@ using VoteManagerAPI.Services;
 
 namespace VoteManagerAPI.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Amendment")]
     public class AmendmentController : ApiController
     {
@@ -34,7 +35,6 @@ namespace VoteManagerAPI.Controllers
 
         // GET By ID
         [HttpGet, Route("{amendmentId}")]
-        [Authorize]
         public async Task<IHttpActionResult> GetAmendmentById(int amendmentId)
         {
             var service = GetAmendmentService();
@@ -44,7 +44,6 @@ namespace VoteManagerAPI.Controllers
 
         // GET All Amendments
         [HttpGet, Route("All")]
-        [Authorize]
         public async Task<IHttpActionResult> GetAllAmendements()
         {
             var service = GetAmendmentService();
