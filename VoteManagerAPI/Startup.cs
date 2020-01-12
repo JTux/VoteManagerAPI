@@ -44,7 +44,7 @@ namespace VoteManagerAPI
             {
                 var adminUser = new ApplicationUser
                 {
-                    UserName = "admin@vmapi.com",
+                    UserName = "SrAdmin",
                     Email = "admin@vmapi.com",
                     EmailConfirmed = true,
                     FirstName = "Master",
