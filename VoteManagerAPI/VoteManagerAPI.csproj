@@ -216,21 +216,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201912231457453_AddedEntitiesToDb.cs" />
-    <Compile Include="Migrations\201912231457453_AddedEntitiesToDb.Designer.cs">
-      <DependentUpon>201912231457453_AddedEntitiesToDb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912231950268_UpdatedVoteStatusType.cs" />
-    <Compile Include="Migrations\201912231950268_UpdatedVoteStatusType.Designer.cs">
-      <DependentUpon>201912231950268_UpdatedVoteStatusType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912232005374_AddedAnonVotes.cs" />
-    <Compile Include="Migrations\201912232005374_AddedAnonVotes.Designer.cs">
-      <DependentUpon>201912232005374_AddedAnonVotes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912232312538_AddedIsPassedToAmendment.cs" />
-    <Compile Include="Migrations\201912232312538_AddedIsPassedToAmendment.Designer.cs">
-      <DependentUpon>201912232312538_AddedIsPassedToAmendment.cs</DependentUpon>
+    <Compile Include="Migrations\202001120220376_InitialMigration.cs" />
+    <Compile Include="Migrations\202001120220376_InitialMigration.Designer.cs">
+      <DependentUpon>202001120220376_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -350,17 +338,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201912231457453_AddedEntitiesToDb.resx">
-      <DependentUpon>201912231457453_AddedEntitiesToDb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912231950268_UpdatedVoteStatusType.resx">
-      <DependentUpon>201912231950268_UpdatedVoteStatusType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912232005374_AddedAnonVotes.resx">
-      <DependentUpon>201912232005374_AddedAnonVotes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912232312538_AddedIsPassedToAmendment.resx">
-      <DependentUpon>201912232312538_AddedIsPassedToAmendment.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001120220376_InitialMigration.resx">
+      <DependentUpon>202001120220376_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

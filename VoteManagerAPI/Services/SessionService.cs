@@ -67,10 +67,10 @@ namespace VoteManagerAPI.Services
 
         public async Task<int> GetCurrentSessionId()
         {
-            using(var context = new ApplicationDbContext())
+            using (var context = new ApplicationDbContext())
             {
                 var currentSession = await context.Sessions.FirstOrDefaultAsync(s => s.IsActive);
-                return currentSession.Id;
+                return currentSession != null ? currentSession.Id : 0;
             }
         }
 

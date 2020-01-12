@@ -14,6 +14,7 @@ namespace VoteManagerAPI.Controllers
     [RoutePrefix("api/Session")]
     public class SessionController : ApiController
     {
+        // CREATE
         [HttpPost, Route("Begin")]
         [Authorize(Roles = "Admin, Chair")]
         public async Task<IHttpActionResult> InitializeSession()
@@ -25,15 +26,24 @@ namespace VoteManagerAPI.Controllers
             return BadRequest("Session already in progress.");
         }
 
+        // GET Current
         [HttpGet, Route("Current")]
         public async Task<IHttpActionResult> GetCurrentSession()
         {
             var service = GetSessionService();
             var currentSessionId = await service.GetCurrentSessionId();
-            var currentSession = await service.GetSessionById(currentSessionId);
-            return Ok(currentSession);
+            if (currentSessionId != 0)
+            {
+                var currentSession = await service.GetSessionById(currentSessionId);
+                return Ok(currentSession);
+            }
+
+            return BadRequest("There is no active session.");
         }
 
+        // GET All
+
+        // GET by ID
         [HttpGet, Route("{sessionId}")]
         public async Task<IHttpActionResult> GetSessionById(int sessionId)
         {
@@ -42,6 +52,9 @@ namespace VoteManagerAPI.Controllers
             return Ok(session);
         }
 
+        // UPDATE Existing
+
+        // End Current Session
         [HttpPut, Route("End")]
         [Authorize(Roles = "Admin, Chair")]
         public async Task<IHttpActionResult> EndCurrentSession()
@@ -52,6 +65,8 @@ namespace VoteManagerAPI.Controllers
 
             return BadRequest("Cannot end session.");
         }
+
+        // DELETE Existing by ID
 
         private SessionService GetSessionService() => new SessionService(User.Identity.GetUserId());
     }
