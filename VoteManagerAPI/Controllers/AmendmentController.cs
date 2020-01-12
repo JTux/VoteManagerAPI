@@ -14,6 +14,7 @@ namespace VoteManagerAPI.Controllers
     [RoutePrefix("api/Amendment")]
     public class AmendmentController : ApiController
     {
+        // CREATE New
         [HttpPost, Route("Present")]
         [Authorize(Roles = "Admin, Chair, Founder, Member")]
         public async Task<IHttpActionResult> PresentNewAmendment(AmendmentCreate model)
@@ -31,6 +32,7 @@ namespace VoteManagerAPI.Controllers
             return BadRequest("Cannot create amendment.");
         }
 
+        // GET By ID
         [HttpGet, Route("{amendmentId}")]
         public async Task<IHttpActionResult> GetAmendmentById(int amendmentId)
         {
@@ -38,6 +40,20 @@ namespace VoteManagerAPI.Controllers
             var amendment = await service.GetAmendmentById(amendmentId);
             return Ok(amendment);
         }
+
+        // GET Votes By Amendment ID
+
+        // GET All Amendments
+
+        // UPDATE Existing
+
+        // DELETE Existing
+
+        // Table Amendment
+
+        // Conclude Amendment
+
+        // Get Tabled Amendment
 
         private AmendmentService GetAmendmentService() => new AmendmentService(User.Identity.GetUserId());
     }

@@ -53,7 +53,7 @@ namespace VoteManagerAPI.Controllers
 
         // GET All Motions
 
-        // Update Existing
+        // UPDATE Existing
         [HttpPut, Route("{motionId}/Update")]
         [Authorize(Roles = "Admin, Chair, Founder, Member")]
         public async Task<IHttpActionResult> UpdateExistingMotion(int motionId, MotionUpdate model)
@@ -76,6 +76,12 @@ namespace VoteManagerAPI.Controllers
         }
 
         // DELETE By ID
+
+        // Table Motion
+
+        // Conclude Motion
+
+        // Get Tabled Motion
 
         private MotionService GetMotionService() => new MotionService(User.Identity.GetUserId());
     }

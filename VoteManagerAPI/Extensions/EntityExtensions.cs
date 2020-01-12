@@ -21,8 +21,8 @@ namespace VoteManagerAPI.Extensions
                 StartDate = entity.StartDate,
                 CreatorName = entity.Creator.UserName,
                 IsActive = entity.IsActive,
-                Motions = entity.OrdersOfBusiness.Where(e => e is MotionEntity).Select(e => ((MotionEntity)e).ToDetail()).ToList(),
-                Amendments = entity.OrdersOfBusiness.Where(e => e is AmendmentEntity).Select(e => ((AmendmentEntity)e).ToDetail()).ToList()
+                Motions = entity.OrdersOfBusiness.Where(e => e is MotionEntity).Select(e => (MotionDetail)e.ToDetail()).ToList(),
+                Amendments = entity.OrdersOfBusiness.Where(e => e is AmendmentEntity).Select(e => (AmendmentDetail)e.ToDetail()).ToList()
             };
         }
 

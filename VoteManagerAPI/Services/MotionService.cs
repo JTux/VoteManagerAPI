@@ -21,6 +21,7 @@ namespace VoteManagerAPI.Services
         public MotionService() { }
         public MotionService(string userId) => _userId = userId;
 
+        // CREATE New
         public async Task<bool> CreateMotion(MotionCreate model)
         {
             var currentSession = await _context.Sessions.FirstOrDefaultAsync(s => s.IsActive);
@@ -41,16 +42,20 @@ namespace VoteManagerAPI.Services
             return await _context.SaveChangesAsync() == 1;
         }
 
-        public async Task<OrderOfBusinessDetail> GetMotionById(int motionId)
+        // GET By ID
+        public async Task<MotionDetail> GetMotionById(int motionId)
         {
             var motion = await _context.OrdersOfBusiness.FindAsync(motionId);
             if (motion == null || motion is AmendmentEntity)
                 return null;
 
-            var motionDetail = motion.ToDetail();
+            var motionDetail = (MotionDetail)motion.ToDetail();
             return motionDetail;
         }
 
+        // GET All Motions
+
+        // Update Existing
         public async Task<bool> UpdateExistingMotion(MotionUpdate model)
         {
             var motion = await _context.OrdersOfBusiness.FindAsync(model.MotionId);
@@ -70,11 +75,5 @@ namespace VoteManagerAPI.Services
 
             return await _context.SaveChangesAsync() == changeCount + 1;
         }
-
-        // Table Motion
-
-        // Conclude Motion
-
-        // Get Tabled Motions
     }
 }

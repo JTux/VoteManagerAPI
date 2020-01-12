@@ -246,6 +246,7 @@
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Services\AmendmentService.cs" />
     <Compile Include="Services\MotionService.cs" />
+    <Compile Include="Services\OrderOfBusinessService.cs" />
     <Compile Include="Services\RuleService.cs" />
     <Compile Include="Services\SessionService.cs" />
     <Compile Include="Services\VoteService.cs" />

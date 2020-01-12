@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using VoteManagerAPI.Extensions;
 using VoteManagerAPI.Models;
 using VoteManagerAPI.Models.Amendment;
 using VoteManagerAPI.Models.Entities;
@@ -16,7 +17,8 @@ namespace VoteManagerAPI.Services
 
         public AmendmentService() { }
         public AmendmentService(string userId) => _userId = userId;
-
+        
+        // CREATE New
         public async Task<bool> CreateAmendment(AmendmentCreate model)
         {
             using (var context = new ApplicationDbContext())
@@ -40,6 +42,7 @@ namespace VoteManagerAPI.Services
             }
         }
 
+        // GET By ID
         public async Task<AmendmentDetail> GetAmendmentById(int amendmentId)
         {
             using (var context = new ApplicationDbContext())
@@ -48,36 +51,13 @@ namespace VoteManagerAPI.Services
                 if (entity == null || entity is MotionEntity)
                     return null;
 
-                var amendment = (AmendmentEntity)entity;
-
-                var amendmentDetail = new AmendmentDetail
-                {
-                    AmendmentId = amendment.Id,
-                    RuleId = amendment.RuleId,
-                    Title = amendment.Title,
-                    Description = amendment.Description,
-                    IsPassed = amendment.IsPassed,
-                    IsActive = amendment.IsActive,
-                    IsTabled = amendment.IsTabled,
-                    PresenterName = amendment.PresentingUser.UserName,
-                    Votes = new List<VoteDetail>()
-                };
-
-                foreach (var vote in amendment.Votes)
-                {
-                    var voteDetail = new VoteDetail
-                    {
-                        VoteId = vote.Id,
-                        OrderOfBusinessId = vote.OrderOfBusinessId,
-                        Status = vote.Status,
-                        VoterName = (vote.IsAnonymous) ? "Anonymous" : vote.Voter.UserName
-                    };
-
-                    amendmentDetail.Votes.Add(voteDetail);
-                }
-
+                var amendmentDetail = (AmendmentDetail)entity.ToDetail();
                 return amendmentDetail;
             }
         }
+
+        // GET All Motions
+
+        // Update Existing
     }
 }
