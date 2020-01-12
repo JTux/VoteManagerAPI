@@ -209,6 +209,7 @@
     <Compile Include="Controllers\AmendmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MotionController.cs" />
+    <Compile Include="Controllers\OrderOfBusinessController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Controllers\SessionController.cs" />

@@ -41,19 +41,9 @@ namespace VoteManagerAPI.Controllers
             return Ok(amendment);
         }
 
-        // GET Votes By Amendment ID
-
         // GET All Amendments
 
         // UPDATE Existing
-
-        // DELETE Existing
-
-        // Table Amendment
-
-        // Conclude Amendment
-
-        // Get Tabled Amendment
 
         private AmendmentService GetAmendmentService() => new AmendmentService(User.Identity.GetUserId());
     }

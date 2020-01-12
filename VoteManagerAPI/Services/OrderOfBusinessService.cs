@@ -40,7 +40,7 @@ namespace VoteManagerAPI.Services
             return await _context.SaveChangesAsync() == 1;
         }
 
-        // Table OOB
+        // Toggle Tabled OOB
         public async Task<bool> ToggleTabledByIdAsync(int orderOfBusinessId)
         {
             var orderOfBusiness = await _context.OrdersOfBusiness.FindAsync(orderOfBusinessId);

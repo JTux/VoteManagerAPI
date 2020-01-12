@@ -49,8 +49,6 @@ namespace VoteManagerAPI.Controllers
             return BadRequest($"No Motion found with ID of {motionId}.");
         }
 
-        // GET Votes By Motion ID
-
         // GET All Motions
         [HttpGet, Route("All")]
         public async Task<IHttpActionResult> GetAllMotions()
@@ -80,14 +78,6 @@ namespace VoteManagerAPI.Controllers
 
             return BadRequest("Cannot update motion.");
         }
-
-        // DELETE By ID
-
-        // Table Motion
-
-        // Conclude Motion
-
-        // Get Tabled Motion
 
         private MotionService GetMotionService() => new MotionService(User.Identity.GetUserId());
     }
