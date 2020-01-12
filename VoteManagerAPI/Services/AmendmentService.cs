@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -14,50 +15,68 @@ namespace VoteManagerAPI.Services
     public class AmendmentService
     {
         private readonly string _userId;
+        private readonly ApplicationDbContext _context = new ApplicationDbContext();
 
         public AmendmentService() { }
         public AmendmentService(string userId) => _userId = userId;
-        
+
         // CREATE New
         public async Task<bool> CreateAmendmentAsync(AmendmentCreate model)
         {
-            using (var context = new ApplicationDbContext())
+            var currentSessionId = await new SessionService(_userId).GetCurrentSessionIdAsync();
+            if (currentSessionId == 0)
+                return false;
+
+            var amendment = new AmendmentEntity
             {
-                var currentSessionId = await new SessionService(_userId).GetCurrentSessionIdAsync();
-                if (currentSessionId == 0)
-                    return false;
+                RuleId = model.RuleId,
+                Title = model.Title,
+                Description = model.Description,
+                IsActive = true,
+                PresentingUserId = _userId,
+                OriginalSessionId = currentSessionId,
+            };
 
-                var amendment = new AmendmentEntity
-                {
-                    RuleId = model.RuleId,
-                    Title = model.Title,
-                    Description = model.Description,
-                    IsActive = true,
-                    PresentingUserId = _userId,
-                    OriginalSessionId = currentSessionId,
-                };
-
-                context.Amendments.Add(amendment);
-                return await context.SaveChangesAsync() == 1;
-            }
+            _context.Amendments.Add(amendment);
+            return await _context.SaveChangesAsync() == 1;
         }
 
         // GET By ID
         public async Task<AmendmentDetail> GetAmendmentByIdAsync(int amendmentId)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                var entity = await context.OrdersOfBusiness.FindAsync(amendmentId);
-                if (entity == null || entity is MotionEntity)
-                    return null;
+            var entity = await _context.OrdersOfBusiness.FindAsync(amendmentId);
+            if (entity == null || entity is MotionEntity)
+                return null;
 
-                var amendmentDetail = (AmendmentDetail)entity.ToDetail();
-                return amendmentDetail;
-            }
+            var amendmentDetail = (AmendmentDetail)entity.ToDetail();
+            return amendmentDetail;
         }
 
-        // GET All Motions
+        // GET All Amendments
+        public async Task<List<AmendmentDetail>> GetAllMotionsAsync()
+        {
+            return (await _context.Amendments.ToListAsync()).Select(m => m.ToDetail()).ToList();
+        }
 
         // Update Existing
+        public async Task<bool> UpdateExistingAmendmentAsync(AmendmentUpdate model)
+        {
+            var motion = await _context.Amendments.FindAsync(model.AmendmentId);
+            if (motion == null || motion.PresentingUserId != _userId)
+                return false;
+
+            if (motion.Title == model.Title && motion.Description == model.Description)
+                return false;
+
+            int changeCount = 0;
+
+            for (int totalVotes = motion.Votes.Count; changeCount < totalVotes; changeCount++)
+                _context.Votes.Remove(motion.Votes.ElementAt(0));
+
+            motion.Title = model.Title;
+            motion.Description = model.Description;
+
+            return await _context.SaveChangesAsync() == changeCount + 1;
+        }
     }
 }

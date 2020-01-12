@@ -35,6 +35,7 @@ namespace VoteManagerAPI.Controllers
 
         // GET By ID
         [HttpGet, Route("{motionId}")]
+        [Authorize]
         public async Task<IHttpActionResult> GetMotionById(int motionId)
         {
             if (motionId < 1)
@@ -51,6 +52,7 @@ namespace VoteManagerAPI.Controllers
 
         // GET All Motions
         [HttpGet, Route("All")]
+        [Authorize]
         public async Task<IHttpActionResult> GetAllMotions()
         {
             var service = GetMotionService();

@@ -56,15 +56,14 @@ namespace VoteManagerAPI.Services
         // GET All Motions
         public async Task<List<MotionDetail>> GetAllMotionsAsync()
         {
-            var motions = (await _context.Motions.ToListAsync()).Select(m => m.ToDetail()).ToList();
-            return motions;
+            return (await _context.Motions.ToListAsync()).Select(m => m.ToDetail()).ToList();
         }
 
         // Update Existing
         public async Task<bool> UpdateExistingMotionAsync(MotionUpdate model)
         {
-            var motion = await _context.OrdersOfBusiness.FindAsync(model.MotionId);
-            if (motion == null || motion is AmendmentEntity || motion.PresentingUserId != _userId)
+            var motion = await _context.Motions.FindAsync(model.MotionId);
+            if (motion == null || motion.PresentingUserId != _userId)
                 return false;
 
             if (motion.Title == model.Title && motion.Description == model.Description)

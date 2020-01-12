@@ -34,16 +34,44 @@ namespace VoteManagerAPI.Controllers
 
         // GET By ID
         [HttpGet, Route("{amendmentId}")]
+        [Authorize]
         public async Task<IHttpActionResult> GetAmendmentById(int amendmentId)
         {
-            var service = new AmendmentService();
+            var service = GetAmendmentService();
             var amendment = await service.GetAmendmentByIdAsync(amendmentId);
             return Ok(amendment);
         }
 
         // GET All Amendments
+        [HttpGet, Route("All")]
+        [Authorize]
+        public async Task<IHttpActionResult> GetAllAmendements()
+        {
+            var service = GetAmendmentService();
+            return Ok(await service.GetAllMotionsAsync());
+        }
 
         // UPDATE Existing
+        [HttpPut, Route("{motionId}/Update")]
+        [Authorize(Roles = "Admin, Chair, Founder, Member")]
+        public async Task<IHttpActionResult> UpdateExistingMotion(int motionId, AmendmentUpdate model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (model == null)
+                return BadRequest("Request body cannot be empty.");
+
+            if (motionId != model.AmendmentId)
+                return BadRequest($"Body ID ({model.AmendmentId}) and URI ID ({motionId}) mismatch.");
+
+            var service = GetAmendmentService();
+
+            if (await service.UpdateExistingAmendmentAsync(model))
+                return Ok("Amendment updated.");
+
+            return BadRequest("Cannot update amendment.");
+        }
 
         private AmendmentService GetAmendmentService() => new AmendmentService(User.Identity.GetUserId());
     }
