@@ -26,7 +26,7 @@ namespace VoteManagerAPI.Controllers
                 return BadRequest("Request body cannot be empty.");
 
             var service = GetAmendmentService();
-            if (await service.CreateAmendment(model))
+            if (await service.CreateAmendmentAsync(model))
                 return Ok("Amendment presented successfully.");
 
             return BadRequest("Cannot create amendment.");
@@ -37,7 +37,7 @@ namespace VoteManagerAPI.Controllers
         public async Task<IHttpActionResult> GetAmendmentById(int amendmentId)
         {
             var service = new AmendmentService();
-            var amendment = await service.GetAmendmentById(amendmentId);
+            var amendment = await service.GetAmendmentByIdAsync(amendmentId);
             return Ok(amendment);
         }
 

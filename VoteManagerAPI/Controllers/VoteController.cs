@@ -25,7 +25,7 @@ namespace VoteManagerAPI.Controllers
                 return BadRequest("Request body cannot be empty.");
 
             var service = GetVoteService();
-            if (await service.CastVote(model))
+            if (await service.CastVoteAsync(model))
                 return Ok("Vote cast.");
 
             return BadRequest("Vote cannot be submitted.");

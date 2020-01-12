@@ -22,23 +22,23 @@ namespace VoteManagerAPI.Services
         public SessionService(string userId) => _userId = userId;
 
         // CREATE
-        public async Task<bool> StartNewSession()
+        public async Task<bool> StartNewSessionAsync()
         {
-            if (await GetCurrentSessionId() == 0)
+            if (await GetCurrentSessionIdAsync() == 0)
                 _context.Sessions.Add(new SessionEntity { CreatorId = _userId, StartDate = DateTime.UtcNow, IsActive = true });
 
             return await _context.SaveChangesAsync() == 1;
         }
 
         // GET Current
-        public async Task<int> GetCurrentSessionId()
+        public async Task<int> GetCurrentSessionIdAsync()
         {
             var currentSession = await _context.Sessions.FirstOrDefaultAsync(s => s.IsActive);
             return currentSession != null ? currentSession.Id : 0;
         }
 
         // GET All
-        public async Task<List<SessionDetail>> GetAllSessions()
+        public async Task<List<SessionDetail>> GetAllSessionsAsync()
         {
             var allSessions = (await _context.Sessions.ToListAsync()).Select(s => s.ToDetail());
             var orderedSessions = allSessions.OrderByDescending(s => s.StartDate).ToList();
@@ -46,7 +46,7 @@ namespace VoteManagerAPI.Services
         }
 
         // GET by ID
-        public async Task<SessionDetail> GetSessionById(int sessionId)
+        public async Task<SessionDetail> GetSessionByIdAsync(int sessionId)
         {
             var session = await _context.Sessions.FindAsync(sessionId);
             return session?.ToDetail();
@@ -55,7 +55,7 @@ namespace VoteManagerAPI.Services
         // UPDATE Existing
 
         // End Current Session
-        public async Task<bool> EndSession(int sessionId)
+        public async Task<bool> EndSessionAsync(int sessionId)
         {
             int changeCount = 1;
 
@@ -76,7 +76,7 @@ namespace VoteManagerAPI.Services
         }
 
         // DELETE Existing by ID
-        public async Task<bool> DeleteSessionById(int sessionId)
+        public async Task<bool> DeleteSessionByIdAsync(int sessionId)
         {
             var entity = await _context.Sessions.FindAsync(sessionId);
             if (entity == null)

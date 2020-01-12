@@ -17,7 +17,7 @@ namespace VoteManagerAPI.Controllers
         public async Task<IHttpActionResult> GetAllRules()
         {
             var service = new RuleService();
-            var rules = await service.GetAllRules();
+            var rules = await service.GetAllRulesAsync();
             return Ok(rules);
         }
 
@@ -25,7 +25,7 @@ namespace VoteManagerAPI.Controllers
         public async Task<IHttpActionResult> GetRuleById(int ruleId)
         {
             var service = new RuleService();
-            var rule = await service.GetRuleById(ruleId);
+            var rule = await service.GetRuleByIdAsync(ruleId);
             return Ok(rule);
         }
 

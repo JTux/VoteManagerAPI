@@ -19,11 +19,11 @@ namespace VoteManagerAPI.Services
         public AmendmentService(string userId) => _userId = userId;
         
         // CREATE New
-        public async Task<bool> CreateAmendment(AmendmentCreate model)
+        public async Task<bool> CreateAmendmentAsync(AmendmentCreate model)
         {
             using (var context = new ApplicationDbContext())
             {
-                var currentSessionId = await new SessionService(_userId).GetCurrentSessionId();
+                var currentSessionId = await new SessionService(_userId).GetCurrentSessionIdAsync();
                 if (currentSessionId == 0)
                     return false;
 
@@ -43,7 +43,7 @@ namespace VoteManagerAPI.Services
         }
 
         // GET By ID
-        public async Task<AmendmentDetail> GetAmendmentById(int amendmentId)
+        public async Task<AmendmentDetail> GetAmendmentByIdAsync(int amendmentId)
         {
             using (var context = new ApplicationDbContext())
             {

@@ -18,7 +18,7 @@ namespace VoteManagerAPI.Services
         public RuleService() { }
         public RuleService(string userId) => _userId = userId;
 
-        public async Task<List<RuleDetail>> GetAllRules()
+        public async Task<List<RuleDetail>> GetAllRulesAsync()
         {
             using (var context = new ApplicationDbContext())
             {
@@ -27,13 +27,13 @@ namespace VoteManagerAPI.Services
                 var allRules = new List<RuleDetail>();
 
                 foreach (var rule in rules)
-                    allRules.Add(await GetRuleById(rule.Id));
+                    allRules.Add(await GetRuleByIdAsync(rule.Id));
 
                 return allRules;
             }
         }
 
-        public async Task<RuleDetail> GetRuleById(int ruleId)
+        public async Task<RuleDetail> GetRuleByIdAsync(int ruleId)
         {
             using (var context = new ApplicationDbContext())
             {

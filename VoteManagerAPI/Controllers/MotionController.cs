@@ -27,7 +27,7 @@ namespace VoteManagerAPI.Controllers
                 return BadRequest("Request body cannot be empty.");
 
             var service = GetMotionService();
-            if (await service.CreateMotion(model))
+            if (await service.CreateMotionAsync(model))
                 return Ok("Motion created.");
 
             return BadRequest("Cannot present motion.");
@@ -42,7 +42,7 @@ namespace VoteManagerAPI.Controllers
 
             var service = GetMotionService();
 
-            var detailModel = await service.GetMotionById(motionId);
+            var detailModel = await service.GetMotionByIdAsync(motionId);
             if (detailModel != null)
                 return Ok(detailModel);
 
@@ -52,6 +52,12 @@ namespace VoteManagerAPI.Controllers
         // GET Votes By Motion ID
 
         // GET All Motions
+        [HttpGet, Route("All")]
+        public async Task<IHttpActionResult> GetAllMotions()
+        {
+            var service = GetMotionService();
+            return Ok(await service.GetAllMotionsAsync());
+        }
 
         // UPDATE Existing
         [HttpPut, Route("{motionId}/Update")]
@@ -69,7 +75,7 @@ namespace VoteManagerAPI.Controllers
 
             var service = GetMotionService();
 
-            if (await service.UpdateExistingMotion(model))
+            if (await service.UpdateExistingMotionAsync(model))
                 return Ok("Motion updated.");
 
             return BadRequest("Cannot update motion.");

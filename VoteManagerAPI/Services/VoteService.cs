@@ -16,7 +16,7 @@ namespace VoteManagerAPI.Services
         public VoteService() { }
         public VoteService(string userId) => _userId = userId;
 
-        public async Task<bool> CastVote(VoteCreate model)
+        public async Task<bool> CastVoteAsync(VoteCreate model)
         {
             using (var context = new ApplicationDbContext())
             {

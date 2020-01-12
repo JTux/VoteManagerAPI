@@ -20,7 +20,7 @@ namespace VoteManagerAPI.Controllers
         public async Task<IHttpActionResult> InitializeSession()
         {
             var service = GetSessionService();
-            if (await service.StartNewSession())
+            if (await service.StartNewSessionAsync())
                 return Ok("Started new session.");
 
             return BadRequest("Session already in progress.");
@@ -31,10 +31,10 @@ namespace VoteManagerAPI.Controllers
         public async Task<IHttpActionResult> GetCurrentSession()
         {
             var service = GetSessionService();
-            var currentSessionId = await service.GetCurrentSessionId();
+            var currentSessionId = await service.GetCurrentSessionIdAsync();
             if (currentSessionId != 0)
             {
-                var currentSession = await service.GetSessionById(currentSessionId);
+                var currentSession = await service.GetSessionByIdAsync(currentSessionId);
                 return Ok(currentSession);
             }
 
@@ -46,7 +46,7 @@ namespace VoteManagerAPI.Controllers
         public async Task<IHttpActionResult> GetAllSessions()
         {
             var service = GetSessionService();
-            var sessions = await service.GetAllSessions();
+            var sessions = await service.GetAllSessionsAsync();
             return Ok(sessions);
         }
 
@@ -55,7 +55,7 @@ namespace VoteManagerAPI.Controllers
         public async Task<IHttpActionResult> GetSessionById(int sessionId)
         {
             var service = GetSessionService();
-            var session = await service.GetSessionById(sessionId);
+            var session = await service.GetSessionByIdAsync(sessionId);
             return Ok(session);
         }
 
@@ -67,7 +67,7 @@ namespace VoteManagerAPI.Controllers
         public async Task<IHttpActionResult> EndCurrentSession(int sessionId)
         {
             var service = GetSessionService();
-            if (await service.EndSession(sessionId))
+            if (await service.EndSessionAsync(sessionId))
                 return Ok("Session ended successfully.");
 
             return BadRequest("Cannot end session.");
@@ -79,7 +79,7 @@ namespace VoteManagerAPI.Controllers
         public async Task<IHttpActionResult> DeleteSessionById(int sessionId)
         {
             var service = GetSessionService();
-            if (await service.DeleteSessionById(sessionId))
+            if (await service.DeleteSessionByIdAsync(sessionId))
                 return Ok($"Session {sessionId} deleted successfully.");
 
             return BadRequest("Cannot delete session.");
