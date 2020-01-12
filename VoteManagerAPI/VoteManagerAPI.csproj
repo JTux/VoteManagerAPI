@@ -234,6 +234,7 @@
     <Compile Include="Models\Motion\MotionCreate.cs" />
     <Compile Include="Models\Motion\MotionDetail.cs" />
     <Compile Include="Models\Motion\MotionUpdate.cs" />
+    <Compile Include="Models\OOB\OrderOfBusinessDetail.cs" />
     <Compile Include="Models\RoleBindingModels.cs" />
     <Compile Include="Models\Rule\RuleDetail.cs" />
     <Compile Include="Models\Session\SessionDetail.cs" />

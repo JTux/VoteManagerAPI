@@ -5,6 +5,7 @@ using System.Web;
 using VoteManagerAPI.Models.Amendment;
 using VoteManagerAPI.Models.Entities;
 using VoteManagerAPI.Models.Motion;
+using VoteManagerAPI.Models.OOB;
 using VoteManagerAPI.Models.Session;
 using VoteManagerAPI.Models.Vote;
 
@@ -23,6 +24,14 @@ namespace VoteManagerAPI.Extensions
                 Motions = entity.OrdersOfBusiness.Where(e => e is MotionEntity).Select(e => ((MotionEntity)e).ToDetail()).ToList(),
                 Amendments = entity.OrdersOfBusiness.Where(e => e is AmendmentEntity).Select(e => ((AmendmentEntity)e).ToDetail()).ToList()
             };
+        }
+
+        public static OrderOfBusinessDetail ToDetail(this OrderOfBusinessEntity entity)
+        {
+            if (entity is MotionEntity)
+                return ((MotionEntity)entity).ToDetail();
+
+            return ((AmendmentEntity)entity).ToDetail();
         }
 
         public static MotionDetail ToDetail(this MotionEntity entity)
@@ -59,9 +68,9 @@ namespace VoteManagerAPI.Extensions
         {
             return new VoteDetail
             {
-                VoteId = entity.Id, 
+                VoteId = entity.Id,
                 OrderOfBusinessId = entity.OrderOfBusinessId,
-                VoterName = entity.Voter.UserName,
+                VoterName = (entity.IsAnonymous) ? "Anonymous" : entity.Voter.UserName,
                 Status = entity.Status
             };
         }

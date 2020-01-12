@@ -15,6 +15,7 @@ namespace VoteManagerAPI.Controllers
     [RoutePrefix("api/Motion")]
     public class MotionController : ApiController
     {
+        // CREATE New
         [HttpPost, Route("Present")]
         [Authorize(Roles = "Admin, Chair, Founder, Member")]
         public async Task<IHttpActionResult> PresentNewMotion(MotionCreate model)
@@ -32,6 +33,7 @@ namespace VoteManagerAPI.Controllers
             return BadRequest("Cannot present motion.");
         }
 
+        // GET By ID
         [HttpGet, Route("{motionId}")]
         public async Task<IHttpActionResult> GetMotionById(int motionId)
         {
@@ -47,6 +49,11 @@ namespace VoteManagerAPI.Controllers
             return BadRequest($"No Motion found with ID of {motionId}.");
         }
 
+        // GET Votes By Motion ID
+
+        // GET All Motions
+
+        // Update Existing
         [HttpPut, Route("{motionId}/Update")]
         [Authorize(Roles = "Admin, Chair, Founder, Member")]
         public async Task<IHttpActionResult> UpdateExistingMotion(int motionId, MotionUpdate model)
@@ -67,6 +74,8 @@ namespace VoteManagerAPI.Controllers
 
             return BadRequest("Cannot update motion.");
         }
+
+        // DELETE By ID
 
         private MotionService GetMotionService() => new MotionService(User.Identity.GetUserId());
     }

@@ -16,7 +16,7 @@ namespace VoteManagerAPI.Services
     public class SessionService
     {
         private readonly string _userId;
-        private ApplicationDbContext _context = new ApplicationDbContext();
+        private readonly ApplicationDbContext _context = new ApplicationDbContext();
 
         public SessionService() { }
         public SessionService(string userId) => _userId = userId;
