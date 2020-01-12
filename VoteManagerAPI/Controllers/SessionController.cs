@@ -42,9 +42,16 @@ namespace VoteManagerAPI.Controllers
         }
 
         // GET All
+        [HttpGet, Route("All")]
+        public async Task<IHttpActionResult> GetAllSessions()
+        {
+            var service = GetSessionService();
+            var sessions = await service.GetAllSessions();
+            return Ok(sessions);
+        }
 
         // GET by ID
-        [HttpGet, Route("{sessionId}")]
+        [HttpGet, Route("{sessionId:int}")]
         public async Task<IHttpActionResult> GetSessionById(int sessionId)
         {
             var service = GetSessionService();
@@ -55,18 +62,28 @@ namespace VoteManagerAPI.Controllers
         // UPDATE Existing
 
         // End Current Session
-        [HttpPut, Route("End")]
+        [HttpPut, Route("{sessionId}/End")]
         [Authorize(Roles = "Admin, Chair")]
-        public async Task<IHttpActionResult> EndCurrentSession()
+        public async Task<IHttpActionResult> EndCurrentSession(int sessionId)
         {
             var service = GetSessionService();
-            if (await service.EndCurrentSession())
+            if (await service.EndSession(sessionId))
                 return Ok("Session ended successfully.");
 
             return BadRequest("Cannot end session.");
         }
 
         // DELETE Existing by ID
+        [HttpDelete, Route("{sessionId}/Delete")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IHttpActionResult> DeleteSessionById(int sessionId)
+        {
+            var service = GetSessionService();
+            if (await service.DeleteSessionById(sessionId))
+                return Ok($"Session {sessionId} deleted successfully.");
+
+            return BadRequest("Cannot delete session.");
+        }
 
         private SessionService GetSessionService() => new SessionService(User.Identity.GetUserId());
     }

@@ -213,6 +213,7 @@
     <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\VoteController.cs" />
+    <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
