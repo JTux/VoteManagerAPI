@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using VoteManagerAPI.Contracts;
 using VoteManagerAPI.Extensions;
 using VoteManagerAPI.Models;
 using VoteManagerAPI.Models.Entities;
@@ -13,13 +14,17 @@ using VoteManagerAPI.Models.Vote;
 
 namespace VoteManagerAPI.Services
 {
-    public class MotionService
+    public class MotionService : IMotionService
     {
-        private readonly string _userId;
+        private string _userId;
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
 
         public MotionService() { }
-        public MotionService(string userId) => _userId = userId;
+
+        public void SetUserId(string userId)
+        {
+            _userId = userId;
+        }
 
         // CREATE New
         public async Task<bool> CreateMotionAsync(MotionCreate model)

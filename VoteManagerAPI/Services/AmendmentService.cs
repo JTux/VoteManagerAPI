@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using VoteManagerAPI.Contracts;
 using VoteManagerAPI.Extensions;
 using VoteManagerAPI.Models;
 using VoteManagerAPI.Models.Amendment;
@@ -12,18 +13,25 @@ using VoteManagerAPI.Models.Vote;
 
 namespace VoteManagerAPI.Services
 {
-    public class AmendmentService
+    public class AmendmentService : IAmendmentService
     {
-        private readonly string _userId;
+        private string _userId;
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
 
         public AmendmentService() { }
-        public AmendmentService(string userId) => _userId = userId;
+
+        public void SetUserId(string userId)
+        {
+            _userId = userId;
+        }
 
         // CREATE New
         public async Task<bool> CreateAmendmentAsync(AmendmentCreate model)
         {
-            var currentSessionId = await new SessionService(_userId).GetCurrentSessionIdAsync();
+            var sessionService = new SessionService();
+            sessionService.SetUserId(_userId);
+
+            var currentSessionId = await sessionService.GetCurrentSessionIdAsync();
             if (currentSessionId == 0)
                 return false;
 

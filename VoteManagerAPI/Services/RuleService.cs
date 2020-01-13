@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using VoteManagerAPI.Contracts;
 using VoteManagerAPI.Extensions;
 using VoteManagerAPI.Models;
 using VoteManagerAPI.Models.Amendment;
@@ -12,13 +13,17 @@ using VoteManagerAPI.Models.Vote;
 
 namespace VoteManagerAPI.Services
 {
-    public class RuleService
+    public class RuleService : IRuleService
     {
-        private readonly string _userId;
+        private string _userId;
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
 
         public RuleService() { }
-        public RuleService(string userId) => _userId = userId;
+
+        public void SetUserId(string userId)
+        {
+            _userId = userId;
+        }
 
         // GET All Rules
         public async Task<List<RuleDetail>> GetAllRulesAsync()

@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using VoteManagerAPI.Contracts;
 using VoteManagerAPI.Extensions;
 using VoteManagerAPI.Models;
 using VoteManagerAPI.Models.Amendment;
@@ -13,13 +14,17 @@ using VoteManagerAPI.Models.Session;
 
 namespace VoteManagerAPI.Services
 {
-    public class SessionService
+    public class SessionService : ISessionService
     {
-        private readonly string _userId;
+        private string _userId;
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
 
         public SessionService() { }
-        public SessionService(string userId) => _userId = userId;
+
+        public void SetUserId(string userId)
+        {
+            _userId = userId;
+        }
 
         // CREATE
         public async Task<bool> StartNewSessionAsync()

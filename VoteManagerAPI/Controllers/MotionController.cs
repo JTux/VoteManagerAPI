@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using VoteManagerAPI.Contracts;
 using VoteManagerAPI.Models.Motion;
 using VoteManagerAPI.Services;
 
@@ -15,19 +16,27 @@ namespace VoteManagerAPI.Controllers
     [RoutePrefix("api/Motion")]
     public class MotionController : ApiController
     {
+        private readonly IMotionService _service;
+
+        public MotionController(IMotionService service)
+        {
+            _service = service;
+        }
+
         // CREATE New
         [HttpPost, Route("Present")]
         [Authorize(Roles = "Admin, Chair, Founder, Member")]
         public async Task<IHttpActionResult> PresentNewMotion(MotionCreate model)
         {
+            _service.SetUserId(User.Identity.GetUserId());
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             if (model == null)
                 return BadRequest("Request body cannot be empty.");
 
-            var service = GetMotionService();
-            if (await service.CreateMotionAsync(model))
+            if (await _service.CreateMotionAsync(model))
                 return Ok("Motion created.");
 
             return BadRequest("Cannot present motion.");
@@ -37,12 +46,12 @@ namespace VoteManagerAPI.Controllers
         [HttpGet, Route("{motionId}")]
         public async Task<IHttpActionResult> GetMotionById(int motionId)
         {
+            _service.SetUserId(User.Identity.GetUserId());
+
             if (motionId < 1)
                 return BadRequest($"Motion ID cannot be less than 1. Targeted ID was {motionId}.");
 
-            var service = GetMotionService();
-
-            var detailModel = await service.GetMotionByIdAsync(motionId);
+            var detailModel = await _service.GetMotionByIdAsync(motionId);
             if (detailModel != null)
                 return Ok(detailModel);
 
@@ -53,8 +62,9 @@ namespace VoteManagerAPI.Controllers
         [HttpGet, Route("All")]
         public async Task<IHttpActionResult> GetAllMotions()
         {
-            var service = GetMotionService();
-            return Ok(await service.GetAllMotionsAsync());
+            _service.SetUserId(User.Identity.GetUserId());
+
+            return Ok(await _service.GetAllMotionsAsync());
         }
 
         // UPDATE Existing
@@ -62,6 +72,8 @@ namespace VoteManagerAPI.Controllers
         [Authorize(Roles = "Admin, Chair, Founder, Member")]
         public async Task<IHttpActionResult> UpdateExistingMotion(int motionId, MotionUpdate model)
         {
+            _service.SetUserId(User.Identity.GetUserId());
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -71,14 +83,10 @@ namespace VoteManagerAPI.Controllers
             if (motionId != model.MotionId)
                 return BadRequest($"Body ID ({model.MotionId}) and URI ID ({motionId}) mismatch.");
 
-            var service = GetMotionService();
-
-            if (await service.UpdateExistingMotionAsync(model))
+            if (await _service.UpdateExistingMotionAsync(model))
                 return Ok("Motion updated.");
 
             return BadRequest("Cannot update motion.");
         }
-
-        private MotionService GetMotionService() => new MotionService(User.Identity.GetUserId());
     }
 }
