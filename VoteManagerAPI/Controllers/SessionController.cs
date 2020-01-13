@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using VoteManagerAPI.Contracts;
 using VoteManagerAPI.Services;
 
 namespace VoteManagerAPI.Controllers
@@ -14,13 +15,21 @@ namespace VoteManagerAPI.Controllers
     [RoutePrefix("api/Session")]
     public class SessionController : ApiController
     {
+        private readonly ISessionService _service;
+
+        public SessionController(ISessionService service)
+        {
+            _service = service;
+        }
+
         // CREATE
         [HttpPost, Route("Begin")]
         [Authorize(Roles = "Admin, Chair")]
         public async Task<IHttpActionResult> InitializeSession()
         {
-            var service = GetSessionService();
-            if (await service.StartNewSessionAsync())
+            _service.SetUserId(User.Identity.GetUserId());
+
+            if (await _service.StartNewSessionAsync())
                 return Ok("Started new session.");
 
             return BadRequest("Session already in progress.");
@@ -30,11 +39,12 @@ namespace VoteManagerAPI.Controllers
         [HttpGet, Route("Current")]
         public async Task<IHttpActionResult> GetCurrentSession()
         {
-            var service = GetSessionService();
-            var currentSessionId = await service.GetCurrentSessionIdAsync();
+            _service.SetUserId(User.Identity.GetUserId());
+
+            var currentSessionId = await _service.GetCurrentSessionIdAsync();
             if (currentSessionId != 0)
             {
-                var currentSession = await service.GetSessionByIdAsync(currentSessionId);
+                var currentSession = await _service.GetSessionByIdAsync(currentSessionId);
                 return Ok(currentSession);
             }
 
@@ -43,26 +53,17 @@ namespace VoteManagerAPI.Controllers
 
         // GET Session List
         [HttpGet, Route("Index")]
-        public async Task<IHttpActionResult> GetSessionList()
-        {
-            return Ok(await GetSessionService().GetSessionListAsync());
-        }
+        public async Task<IHttpActionResult> GetSessionList() => Ok(await _service.GetSessionListAsync());
 
         // GET All
         [HttpGet, Route("All")]
-        public async Task<IHttpActionResult> GetAllSessions()
-        {
-            var service = GetSessionService();
-            var sessions = await service.GetAllSessionsAsync();
-            return Ok(sessions);
-        }
+        public async Task<IHttpActionResult> GetAllSessions() => Ok(await _service.GetAllSessionsAsync());
 
         // GET by ID
         [HttpGet, Route("{sessionId:int}")]
         public async Task<IHttpActionResult> GetSessionById(int sessionId)
         {
-            var service = GetSessionService();
-            var session = await service.GetSessionByIdAsync(sessionId);
+            var session = await _service.GetSessionByIdAsync(sessionId);
             return Ok(session);
         }
 
@@ -73,8 +74,9 @@ namespace VoteManagerAPI.Controllers
         [Authorize(Roles = "Admin, Chair")]
         public async Task<IHttpActionResult> EndCurrentSession(int sessionId)
         {
-            var service = GetSessionService();
-            if (await service.EndSessionAsync(sessionId))
+            _service.SetUserId(User.Identity.GetUserId());
+
+            if (await _service.EndSessionAsync(sessionId))
                 return Ok("Session ended successfully.");
 
             return BadRequest("Cannot end session.");
@@ -85,13 +87,12 @@ namespace VoteManagerAPI.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> DeleteSessionById(int sessionId)
         {
-            var service = GetSessionService();
-            if (await service.DeleteSessionByIdAsync(sessionId))
+            _service.SetUserId(User.Identity.GetUserId());
+
+            if (await _service.DeleteSessionByIdAsync(sessionId))
                 return Ok($"Session {sessionId} deleted successfully.");
 
             return BadRequest("Cannot delete session.");
         }
-
-        private SessionService GetSessionService() => new SessionService(User.Identity.GetUserId());
     }
 }

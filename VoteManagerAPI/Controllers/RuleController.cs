@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using VoteManagerAPI.Contracts;
 using VoteManagerAPI.Models.Rule;
 using VoteManagerAPI.Services;
 
@@ -14,12 +15,18 @@ namespace VoteManagerAPI.Controllers
     [RoutePrefix("api/Rule")]
     public class RuleController : ApiController
     {
+        private readonly IRuleService _service;
+
+        public RuleController(IRuleService service)
+        {
+            _service = service;
+        }
+
         // GET All Rules
         [HttpGet, Route("All")]
         public async Task<IHttpActionResult> GetAllRules()
         {
-            var service = new RuleService();
-            var rules = await service.GetAllRulesAsync();
+            var rules = await _service.GetAllRulesAsync();
             return Ok(rules);
         }
 
@@ -27,8 +34,7 @@ namespace VoteManagerAPI.Controllers
         [HttpGet, Route("{ruleId}")]
         public async Task<IHttpActionResult> GetRuleById(int ruleId)
         {
-            var service = new RuleService();
-            var rule = await service.GetRuleByIdAsync(ruleId);
+            var rule = await _service.GetRuleByIdAsync(ruleId);
             return Ok(rule);
         }
 
@@ -37,13 +43,12 @@ namespace VoteManagerAPI.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> DeleteExistingRule(int ruleId)
         {
-            var service = GetRuleService();
-            if (await service.DeleteRuleAsync(ruleId))
+            _service.SetUserId(User.Identity.GetUserId());
+
+            if (await _service.DeleteRuleAsync(ruleId))
                 return Ok("Rule deleted successfully.");
 
             return BadRequest("Could not delete rule.");
         }
-
-        private RuleService GetRuleService() => new RuleService(User.Identity.GetUserId());
     }
 }

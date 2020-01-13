@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using VoteManagerAPI.Contracts;
 using VoteManagerAPI.Extensions;
 using VoteManagerAPI.Models;
 using VoteManagerAPI.Models.Entities;
@@ -11,13 +12,17 @@ using VoteManagerAPI.Models.Vote;
 
 namespace VoteManagerAPI.Services
 {
-    public class VoteService
+    public class VoteService : IVoteService
     {
-        private readonly string _userId;
+        private  string _userId;
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
 
         public VoteService() { }
-        public VoteService(string userId) => _userId = userId;
+
+        public void SetUserId(string userId)
+        {
+            _userId = userId;
+        }
 
         // CAST Vote
         public async Task<bool> CastVoteAsync(VoteCreate model)

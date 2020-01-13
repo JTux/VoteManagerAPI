@@ -49,6 +49,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -107,6 +110,12 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Abstractions, Version=5.11.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.3\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.3\lib\net47\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -205,6 +214,13 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Contracts\IAmendmentService.cs" />
+    <Compile Include="Contracts\IAuthorizedService.cs" />
+    <Compile Include="Contracts\IMotionService.cs" />
+    <Compile Include="Contracts\IOrderOfBusinessService.cs" />
+    <Compile Include="Contracts\IRuleService.cs" />
+    <Compile Include="Contracts\ISessionService.cs" />
+    <Compile Include="Contracts\IVoteService.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AmendmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -242,6 +258,7 @@
     <Compile Include="Models\Rule\RuleDetail.cs" />
     <Compile Include="Models\Session\SessionDetail.cs" />
     <Compile Include="Models\Session\SessionListItem.cs" />
+    <Compile Include="Models\UnityResolver.cs" />
     <Compile Include="Models\Vote\VoteCreate.cs" />
     <Compile Include="Models\Vote\VoteDetail.cs" />
     <Compile Include="Models\Vote\VoteStatus.cs" />

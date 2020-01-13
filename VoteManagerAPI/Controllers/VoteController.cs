@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using VoteManagerAPI.Contracts;
 using VoteManagerAPI.Models.Vote;
 using VoteManagerAPI.Services;
 
@@ -14,10 +15,19 @@ namespace VoteManagerAPI.Controllers
     [Authorize(Roles = "Admin, Chair, Founder, Member")]
     public class VoteController : ApiController
     {
+        private readonly IVoteService _service;
+
+        public VoteController(IVoteService service)
+        {
+            _service = service;
+        }
+
         // CAST Vote
         [HttpPut, Route("~/api/Motion/{id:int}/CastVote"), Route("~/api/Amendment/{id:int}/CastVote")]
         public async Task<IHttpActionResult> CastVote(int id, VoteCreate model)
         {
+            _service.SetUserId(User.Identity.GetUserId());
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -27,8 +37,7 @@ namespace VoteManagerAPI.Controllers
             if (model.OrderOfBusinessId != id)
                 return BadRequest($"Body ID ({model.OrderOfBusinessId}) and URI ID ({id}) mismatch.");
 
-            var service = GetVoteService();
-            if (await service.CastVoteAsync(model))
+            if (await _service.CastVoteAsync(model))
                 return Ok("Vote cast.");
 
             return BadRequest("Vote cannot be submitted.");
@@ -38,10 +47,8 @@ namespace VoteManagerAPI.Controllers
         [HttpGet, Route("~/api/Motion/{id:int}/UserVote"), Route("~/api/Amendment/{id:int}/UserVote")]
         public async Task<IHttpActionResult> GetUserVote(int id)
         {
-            var service = GetVoteService();
-            return Ok(await service.GetUsersVoteAsync(id));
+            _service.SetUserId(User.Identity.GetUserId());
+            return Ok(await _service.GetUsersVoteAsync(id));
         }
-
-        private VoteService GetVoteService() => new VoteService(User.Identity.GetUserId());
     }
 }
